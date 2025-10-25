@@ -6,6 +6,81 @@
 <title>Dmitry — Personal Money Tracker</title>
 <link rel="shortcut icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><text y='50%' x='50%' dominant-baseline='middle' text-anchor='middle' font-size='42'>₽</text></svg>">
 <style>
+@font-face{
+  font-family:"SF Pro Display";
+  font-style:normal;
+  font-weight:100 900;
+  src:local("SF Pro Display"), local("SFProDisplay-Regular");
+  font-display:swap;
+}
+
+/* =========================
+   iOS/WebKit: выравниваем дату/месяц и select под общие поля
+   ========================= */
+input, select, textarea{
+  min-height:48px;               /* выше и кликабельнее */
+  padding:12px 14px;             /* как у остальных полей */
+}
+
+/* Дата/Месяц рисуем как обычный input (исправляет "длиннее и уже") */
+input[type="date"],
+input[type="month"]{
+  -webkit-appearance:none;
+  appearance:none;
+  width:100%;
+  min-height:48px;
+  line-height:1.2;
+  padding:12px 14px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:#fff;
+  font:inherit;
+}
+input[type="date"]::-webkit-date-and-time-value,
+input[type="month"]::-webkit-date-and-time-value{ text-align:left }
+
+/* Select: делаем такую же высоту, как у input’ов (Счёт, Тип, Откуда, Куда) */
+select{
+  -webkit-appearance:none;       /* чтобы высота реально применялась */
+  appearance:none;
+  min-height:48px;
+  line-height:1.2;
+  padding:12px 14px;
+  font:inherit;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:8px;
+}
+
+/* ===== Транзакции: кнопки в один ряд под заголовком на мобиле ===== */
+@media (max-width:640px){
+  /* заголовок и панель кнопок — столбиком */
+  .card .card-title{ 
+    flex-direction:column; 
+    align-items:flex-start; 
+    gap:6px;
+  }
+  .card .card-title .controls{
+    width:100%;
+    display:flex;
+    flex-wrap:nowrap;           /* в одну строку */
+    gap:8px;
+    overflow:auto;              /* если не влезают — скролл по оси X */
+    padding-top:2px;
+  }
+  .card .card-title .controls button{
+    white-space:nowrap;         /* "Экспорт JSON", "Импорт JSON", "Стереть всё" не переносятся */
+    flex:0 0 auto;
+  }
+
+  /* На мобилке 16px — чтобы iOS не зумил поле при фокусе */
+  input, select, textarea{ font-size:16px }
+}
+
+/* Чуть увеличим кликабельность всех контролов по умолчанию */
+button{ min-height:40px }
+</style> 
+<style>
 /* ===========================
    БАЗОВЫЕ СТИЛИ + АДАПТИВ
    =========================== */
@@ -30,7 +105,7 @@
 html,body{height:100%}
 body{
   margin:0; background:var(--bg); color:var(--ink);
-  font:400 var(--fs-base)/1.45 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+  font:400 var(--fs-base)/1.45 "SF Pro Display", -apple-system, system-ui, Segoe UI, Roboto, Inter, Arial, sans-serif;
 }
 a{color:var(--accent); text-decoration:none}
 .container{
@@ -814,3 +889,4 @@ details.modal > summary::-webkit-details-marker{display:none}
 </script>
 </body>
 </html>
+
