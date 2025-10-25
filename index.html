@@ -79,6 +79,91 @@ select{
 
 /* Чуть увеличим кликабельность всех контролов по умолчанию */
 button{ min-height:40px }
+
+/* =========================
+   1) ЕДИНАЯ ВЫСОТА КНОПОК (как у "Импорт JSON")
+   ========================= */
+.card .card-title .controls button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  height:44px;            /* единая высота */
+  min-height:44px;
+  padding:0 16px;         /* одинаковые боковые */
+  line-height:1;          /* без влияния line-height */
+}
+
+/* =========================
+   2) ОТСТУП МЕЖДУ ЛЕЙБЛОМ И ПОЛЕМ
+   (везде: input/select/textarea)
+   ========================= */
+label > :is(input,select,textarea){
+  margin-top:6px;         /* расстояние между подписью и полем */
+}
+
+/* =========================
+   3) МОБИЛЬНЫЙ РЯД КНОПОК ПОД ЗАГОЛОВКОМ "Транзакции"
+   (сохраняем и на десктопе — всё в одну линию)
+   ========================= */
+.card .card-title{ gap:8px; }
+.card .card-title .controls{
+  display:flex;
+  flex-wrap:nowrap;
+  gap:8px;
+}
+@media (max-width: 640px){
+  .card .card-title{ flex-direction:column; align-items:flex-start; }
+  .card .card-title .controls{
+    width:100%;
+    overflow:auto;     /* если не влезают — скролл по X */
+  }
+  .card .card-title .controls button{ flex:0 0 auto; white-space:nowrap; }
+}
+
+/* =========================
+   4) ВЫСОТА СЕЛЕКТОВ/ДАТ — ЧУТЬ ВЫШЕ, ОДИНАКОВО
+   (Тип / Счёт / Откуда / Куда + дата/месяц)
+   ========================= */
+input, select, textarea{
+  min-height:48px;        /* кликабельно на мобиле */
+  padding:12px 14px;
+}
+input[type="date"], input[type="month"]{
+  -webkit-appearance:none;
+  appearance:none;
+  width:100%;
+  min-height:48px;
+  padding:12px 14px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:#fff;
+  font:inherit;
+}
+select{
+  -webkit-appearance:none;
+  appearance:none;
+  min-height:48px;
+  padding:12px 14px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:#fff;
+  font:inherit;
+}
+
+/* =========================
+   5) ЕДИНАЯ "ЖИРНОСТЬ" ЗАГОЛОВКОВ НА МОБИЛЕ
+   (на iOS иногда выглядит толще)
+   ========================= */
+h1, h2, h3{
+  font-weight:600;                 /* фиксированное значение */
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  font-synthesis: none;            /* запрет "фейкового" bold/italic */
+}
+/* не даём iOS менять размер шрифта при фокусе */
+@media (max-width:640px){
+  input, select, textarea{ font-size:16px; }
+}
 </style> 
 <style>
 /* ===========================
@@ -889,4 +974,5 @@ details.modal > summary::-webkit-details-marker{display:none}
 </script>
 </body>
 </html>
+
 
